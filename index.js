@@ -1,5 +1,8 @@
-const { prompts } = require('inquirer');
 const inquirer = require('inquirer');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const Manager = require('./lib/Manager');
+const team = [];
 
 const promptManager = () =>
 {
@@ -56,7 +59,12 @@ const promptManager = () =>
         }
       }
     }
-  ]);
+  ]).then((answer) =>
+  {
+    const manager = new Manager(answer.name, answer.id, answer.email, answer.office);
+    team.push(manager);
+    promptMenu();
+  })
 }
 
 const promptMenu = () =>
@@ -83,7 +91,7 @@ const promptMenu = () =>
     }
     else(answer.select == 'Finished adding team')
     {
-      return console.log('Exit');
+      return console.log(team);
     }
   });
 }
@@ -143,7 +151,13 @@ const promptEngineer = () =>
         }
       },
     }
-  ]);
+  ]).then((answer) =>
+  {
+    console.log(answer);
+    const engineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
+    team.push(engineer);
+    promptMenu();
+  })
 }
 
 const promptIntern = () =>
@@ -201,7 +215,13 @@ const promptIntern = () =>
         }
       },
     }
-  ]);
+  ]).then((answer) =>
+  {
+    console.log(answer);
+    const intern = new Intern(answer.name, answer.id, answer.email, answer.school);
+    team.push(intern);
+    promptMenu();
+  })
 }
 
 promptManager();
