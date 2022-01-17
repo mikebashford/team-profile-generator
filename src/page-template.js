@@ -4,7 +4,6 @@ const generateTeamCards = team =>
   const generateManager = manager =>
   {
     let managerHTML = `    
-    <div class="">
       <div class="card">
           <div class="card-header">
               <h3>${manager.name}</h3>
@@ -16,7 +15,6 @@ const generateTeamCards = team =>
               <p class="office">Office Number: ${manager.officeNumber}</p>
           </div>
       </div>
-    </div>
     `;
     cards.push(managerHTML);
   }
@@ -24,7 +22,6 @@ const generateTeamCards = team =>
   const generateEngineer = engineer =>
   {
     let engineerHTML = `    
-    <div class="">
       <div class="card">
           <div class="card-header">
               <h3>${engineer.name}</h3>
@@ -36,7 +33,6 @@ const generateTeamCards = team =>
               <p class="list-group-item">Github Username: <a target="_blank" href="https://github.com/${engineer.github}">${engineer.github}</a></p>
           </div>
       </div>
-    </div>
     `;
     cards.push(engineerHTML);
   }
@@ -44,7 +40,6 @@ const generateTeamCards = team =>
   const generateIntern = intern =>
   {
     internHTML = `    
-    <div class="">
       <div class="card">
           <div class="card-header">
               <h3>${intern.name}</h3>
@@ -56,7 +51,6 @@ const generateTeamCards = team =>
               <p class="list-group-item">School: ${intern.school}</p>
           </div>
       </div>
-    </div>
     `;
     cards.push(internHTML); 
   }
@@ -101,9 +95,7 @@ module.exports = team =>
       </header>
       <main>
           <div class="container">
-              <div class="">
                   ${generateTeamCards(team)}
-              </div>
           </div>
       </main>
   </body>
