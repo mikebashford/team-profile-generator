@@ -1,7 +1,10 @@
 const inquirer = require('inquirer');
+const generatePage = require('./src/page-template');
+const fs = require('fs');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
+const { write } = require('fs');
 const team = [];
 
 const promptManager = () =>
@@ -59,7 +62,8 @@ const promptManager = () =>
         }
       }
     }
-  ]).then((answer) =>
+  ])
+  .then((answer) =>
   {
     const manager = new Manager(answer.name, answer.id, answer.email, answer.office);
     team.push(manager);
@@ -81,23 +85,26 @@ const promptMenu = () =>
   {
     if(answer.select == 'Engineer')
     {
-      console.log('Add an new engineer');
-      return promptEngineer();
+      promptEngineer();
     }
-    else if(answer.select == 'Intern')
+    if(answer.select == 'Intern')
     {
-      console.log('Add an new intern');
-      return promptIntern();
+      promptIntern();
     }
-    else(answer.select == 'Finished adding team')
+    if(answer.select == 'Finished adding team')
     {
-      return console.log(team);
+      writeFile();
     }
   });
 }
 
 const promptEngineer = () =>
 {
+  console.log(`
+  =================
+  Add a New Engineer
+  =================
+  `);
   return inquirer.prompt([
     {
       type: 'input',
@@ -151,9 +158,9 @@ const promptEngineer = () =>
         }
       },
     }
-  ]).then((answer) =>
+  ])
+  .then((answer) =>
   {
-    console.log(answer);
     const engineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
     team.push(engineer);
     promptMenu();
@@ -162,6 +169,11 @@ const promptEngineer = () =>
 
 const promptIntern = () =>
 {
+  console.log(`
+  =================
+  Add a New Intern
+  =================
+  `);
   return inquirer.prompt([
     {
       type: 'input',
@@ -215,13 +227,28 @@ const promptIntern = () =>
         }
       },
     }
-  ]).then((answer) =>
+  ])
+  .then((answer) =>
   {
-    console.log(answer);
     const intern = new Intern(answer.name, answer.id, answer.email, answer.school);
     team.push(intern);
     promptMenu();
   })
 }
 
-promptManager();
+const writeFile = () => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile('./dist/index.html', generatePage(team), err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({
+        ok: true,
+        message: 'File created!'
+      });
+    });
+  });
+};
+
+promptManager()
